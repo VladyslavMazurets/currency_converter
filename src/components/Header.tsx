@@ -9,13 +9,13 @@ function Header() {
 
 
     useEffect(() => {
-        fetchFromAPI(`latest-rates`, 'EUR')
+        fetchFromAPI(`fetch-one?from=EUR&to=UAH&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
             .then((data) => setCurrencyEUR(data.result.UAH));
 
-        fetchFromAPI(`latest-rates`, 'USD')
+        fetchFromAPI(`fetch-one?from=USD&to=UAH&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
             .then((data) => setCurrencyUSD(data.result.UAH))
 
-        fetchFromAPI(`latest-rates`, 'GBP')
+        fetchFromAPI(`fetch-one?from=GBP&to=UAH&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
             .then((data) => setCurrencyGBP(data.result.UAH))
 
     }, []);
@@ -24,7 +24,7 @@ function Header() {
         <>
             <nav className="relative flex flex-wrap justify-between px-2 py-6 bg-emerald-500 ">
                 <div className='container mx-auto flex flex-wrap items-center justify-between'>
-                    <div className='font-normal font-medium text-4xl'>
+                    <div className='font-bold font-medium text-4xl'>
                         Currency Converter
                     </div>
 

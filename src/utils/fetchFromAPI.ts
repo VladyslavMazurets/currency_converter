@@ -1,30 +1,20 @@
 const axios = require('axios').default;
 
 interface IOptions {
-    readonly params?: {
-        base?: string,
-        currencies?: string
-    }
     readonly headers: {
-        'X-RapidAPI-Key':  string | undefined,
-        'X-RapidAPI-Host': string,
+        accept: string
     },
 }
 
-const BASE_URL = 'https://currency-converter-pro1.p.rapidapi.com';
+const BASE_URL = 'https://api.fastforex.io';
 
-export const fetchFromAPI = async (url: string, currency?: string) => {
+export const fetchFromAPI = async (url: string) => {
 
     const options: IOptions = {
-    params: {
-        base: currency,
-        currencies: 'UAH'
-    },
-    headers: {
-        'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
-        'X-RapidAPI-Host': 'currency-converter-pro1.p.rapidapi.com'
-    }
-};
+        headers: {
+            accept: 'application/json'
+        }
+    };
 
     const { data } = await axios.get(`${BASE_URL}/${url}`, options)
 
