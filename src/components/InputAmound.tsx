@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react'
 import Select from 'react-select'
 
 interface IValuta {
@@ -8,7 +8,7 @@ interface IValuta {
 
 interface Props {
     allCurrencies: string[],
-    amound: string,
+    amound: string | string[],
     setChoice: (val: string) => void,
     setLabel: (val: string) => void,
     setAmound: (val: string) => void
