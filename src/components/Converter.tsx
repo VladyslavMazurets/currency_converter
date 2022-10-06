@@ -6,7 +6,7 @@ import InputAmound from './InputAmound';
 function Converter() {
 
     const [allCurrencies, setAllCurrencies] = useState<Array<string>>([]);
-    const [choiceCurrencies, setChoiceCurrencies] = useState<Array<string>>([]);
+    const [choiceCurrencies, setChoiceCurrencies] = useState<string>();
 
     const [amoundFrom, setAmoundFrom] = useState<string>();
     const [amoundTo, setAmoundTo] = useState<string>();
@@ -22,8 +22,14 @@ function Converter() {
     }, []);
 
     useEffect(() => {
-        fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${amoundFrom}&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
-            .then((data) => setChoiceCurrencies(Object.values(data.result)[0] as any));
+        {
+            choiceFrom && choiceTo && amoundFrom !== undefined ?
+                fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${amoundFrom}&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
+                    .then((data) => setChoiceCurrencies(Object.values(data.result)[0] as any))
+                :
+                fetchFromAPI(`convert?from=EUR&to=UAH&amount=1&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
+                    .then((data) => setChoiceCurrencies(Object.values(data.result)[0] as any))
+        }
     }, [choiceFrom, choiceTo, amoundFrom, amoundTo])
 
     return (
@@ -44,18 +50,33 @@ function Converter() {
             <div className='w-1/2 bg-white shadow-2xl'>
                 <div className='flex text-center items-center justify-around'>
 
-                    <InputAmound allCurrencies={allCurrencies}
-                        setChoice={setChoiceFrom}
-                        setLabel={setLabelFrom}
-                        amound={amoundFrom!} setAmound={setAmoundFrom}
-                    />
+                    <div className='flex flex-col my-4'>
+                        <span className='text-3xl font-serif font-medium mb-5 mt-1'>
+                            From Currency
+                        </span>
+                        <InputAmound allCurrencies={allCurrencies}
+                            setChoice={setChoiceFrom}
+                            setLabel={setLabelFrom}
+                            choiceCurrencies={choiceCurrencies!}
+                            amound={amoundFrom!}
+                            setAmound={setAmoundFrom}
+                            name={'from'}
+                        />
+                    </div>
 
-                    <InputAmound allCurrencies={allCurrencies}
-                        setChoice={setChoiceTo}
-                        setLabel={setLabelTo}
-                        amound={choiceCurrencies!} setAmound={setAmoundTo}
-                    />
-
+                    <div className='flex flex-col my-4'>
+                        <span className='text-3xl font-serif font-medium mb-5 mt-1'>
+                            To Currency
+                        </span>
+                        <InputAmound allCurrencies={allCurrencies}
+                            setChoice={setChoiceTo}
+                            setLabel={setLabelTo}
+                            amound={amoundTo!}
+                            setAmound={setAmoundTo}
+                            choiceCurrencies={choiceCurrencies!}
+                            name={'to'}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
