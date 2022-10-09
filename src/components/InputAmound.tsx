@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
+
+import { fetchFromAPI } from '../utils/fetchFromAPI';
 
 interface IValuta {
     value: string,
@@ -7,21 +9,27 @@ interface IValuta {
 }
 
 interface Props {
-    allCurrencies: string[],
-    amound: string | string[],
+    amound: string,
     setChoice: (val: string) => void,
     setLabel: (val: string) => void,
     setAmound: (val: string) => void
-    choiceCurrencies: string
     name: string
 }
-function InputAmound({ allCurrencies, amound, setChoice, setLabel,
-    setAmound, choiceCurrencies, name }: Props) {
+function InputAmound({ amound, setChoice, setLabel,
+    setAmound, name }: Props) {
+
+    const [allCurrencies, setAllCurrencies] = useState<Array<string>>([]);
+
 
     const objectKeys: string[] = Object.keys(allCurrencies);
     const objectValues: string[] = Object.values(allCurrencies);
 
     var options: IValuta[] = [];
+
+    useEffect(() => {
+        fetchFromAPI('currencies?api_key=1509376c38-f3a5c6ecea-rj6v8z')
+            .then((data) => setAllCurrencies(data.currencies));
+    }, []);
 
     for (let i = 0; i < objectKeys.length; i++) {
 
@@ -31,7 +39,7 @@ function InputAmound({ allCurrencies, amound, setChoice, setLabel,
         } as IValuta;
 
         options.push(valuta);
-    }
+    };
 
     return (
         <>
@@ -49,8 +57,8 @@ function InputAmound({ allCurrencies, amound, setChoice, setLabel,
                             bg-gray-100 text-2xl focus:outline-none focus:bg-gray-200'
                 type="text"
                 name={name}
-                value={amound}
-                onChange={(e) => 
+                value={parseFloat(amound)}
+                onChange={(e) =>
                     setAmound(e.target.value.replace(/[^0-9.]/g, ''))} />
         </>
     )

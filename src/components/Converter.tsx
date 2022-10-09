@@ -4,10 +4,6 @@ import { fetchFromAPI } from '../utils/fetchFromAPI';
 import InputAmound from './InputAmound';
 
 function Converter() {
-
-    const [allCurrencies, setAllCurrencies] = useState<Array<string>>([]);
-    const [choiceCurrencies, setChoiceCurrencies] = useState<string>();
-
     const [amoundFrom, setAmoundFrom] = useState<string>();
     const [amoundTo, setAmoundTo] = useState<string>();
 
@@ -16,21 +12,27 @@ function Converter() {
     const [labelFrom, setLabelFrom] = useState<string>();
     const [labelTo, setLabelTo] = useState<string>();
 
-    useEffect(() => {
-        fetchFromAPI('currencies?api_key=1509376c38-f3a5c6ecea-rj6v8z')
-            .then((data) => setAllCurrencies(data.currencies));
-    }, []);
+    const convertFromTo = () => {
+        fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${amoundFrom}&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
+            .then((data) => setAmoundTo(Object.values(data.result)[0] as any))
+        console.log(amoundTo);
+    };
+
+    const convertToFrom = () => {
+        fetchFromAPI(`convert?from=${choiceTo}&to=${choiceFrom}&amount=${amoundTo}&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
+            .then((data) => setAmoundFrom(Object.values(data.result)[0] as any))
+        console.log(amoundFrom);
+    };
+
 
     useEffect(() => {
-        {
-            choiceFrom && choiceTo && amoundFrom !== undefined ?
-                fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${amoundFrom}&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
-                    .then((data) => setChoiceCurrencies(Object.values(data.result)[0] as any))
-                :
-                fetchFromAPI(`convert?from=EUR&to=UAH&amount=1&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
-                    .then((data) => setChoiceCurrencies(Object.values(data.result)[0] as any))
-        }
-    }, [choiceFrom, choiceTo, amoundFrom, amoundTo])
+        convertFromTo();
+    }, [choiceFrom, choiceTo, amoundFrom])
+
+    useEffect(() => {
+        convertToFrom();
+    }, [choiceFrom, choiceTo, amoundTo])
+
 
     return (
         <div className='w-auto h-screen flex flex-col text-center 
@@ -54,10 +56,9 @@ function Converter() {
                         <span className='text-3xl font-serif font-medium mb-5 mt-1'>
                             From Currency
                         </span>
-                        <InputAmound allCurrencies={allCurrencies}
+                        <InputAmound
                             setChoice={setChoiceFrom}
                             setLabel={setLabelFrom}
-                            choiceCurrencies={choiceCurrencies!}
                             amound={amoundFrom!}
                             setAmound={setAmoundFrom}
                             name={'from'}
@@ -68,12 +69,11 @@ function Converter() {
                         <span className='text-3xl font-serif font-medium mb-5 mt-1'>
                             To Currency
                         </span>
-                        <InputAmound allCurrencies={allCurrencies}
+                        <InputAmound
                             setChoice={setChoiceTo}
                             setLabel={setLabelTo}
                             amound={amoundTo!}
                             setAmound={setAmoundTo}
-                            choiceCurrencies={choiceCurrencies!}
                             name={'to'}
                         />
                     </div>
