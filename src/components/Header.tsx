@@ -9,14 +9,16 @@ function Header() {
 
 
     useEffect(() => {
-        fetchFromAPI(`fetch-one?from=EUR&to=UAH&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
-            .then((data) => setCurrencyEUR(data.result.UAH));
+        fetchFromAPI(`convert?from=EUR&to=UAH&amount=1`)
+            .then((data) => setCurrencyEUR(data.info.rate));
 
-        fetchFromAPI(`fetch-one?from=USD&to=UAH&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
-            .then((data) => setCurrencyUSD(data.result.UAH))
+        console.log(currencyEUR);
 
-        fetchFromAPI(`fetch-one?from=GBP&to=UAH&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
-            .then((data) => setCurrencyGBP(data.result.UAH))
+        fetchFromAPI(`convert?from=USD&to=UAH&amount=1`)
+            .then((data) => setCurrencyUSD(data.info.rate))
+
+        fetchFromAPI(`convert?from=GBP&to=UAH&amount=1`)
+            .then((data) => setCurrencyGBP(data.info.rate))
 
     }, []);
 

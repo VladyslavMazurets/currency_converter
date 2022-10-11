@@ -4,8 +4,8 @@ import { fetchFromAPI } from '../utils/fetchFromAPI';
 import InputAmound from './InputAmound';
 
 function Converter() {
-    const [amoundFrom, setAmoundFrom] = useState<string>();
-    const [amoundTo, setAmoundTo] = useState<string>();
+    const [amountFrom, setAmountFrom] = useState<string>();
+    const [amountTo, setAmountTo] = useState<string>();
 
     const [choiceFrom, setChoiceFrom] = useState<string>();
     const [choiceTo, setChoiceTo] = useState<string>();
@@ -13,25 +13,23 @@ function Converter() {
     const [labelTo, setLabelTo] = useState<string>();
 
     const convertFromTo = () => {
-        fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${amoundFrom}&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
-            .then((data) => setAmoundTo(Object.values(data.result)[0] as any))
-        console.log(amoundTo);
+        fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${amountFrom}`)
+            .then((data) => setAmountTo(data.result));
     };
 
     const convertToFrom = () => {
-        fetchFromAPI(`convert?from=${choiceTo}&to=${choiceFrom}&amount=${amoundTo}&api_key=1509376c38-f3a5c6ecea-rj6v8z`)
-            .then((data) => setAmoundFrom(Object.values(data.result)[0] as any))
-        console.log(amoundFrom);
+        fetchFromAPI(`convert?from=${choiceTo}&to=${choiceFrom}&amount=${amountTo}`)
+            .then((data) => setAmountFrom(data.result));
     };
 
 
     useEffect(() => {
         convertFromTo();
-    }, [choiceFrom, choiceTo, amoundFrom])
+    }, [choiceFrom, choiceTo, amountFrom])
 
     useEffect(() => {
         convertToFrom();
-    }, [choiceFrom, choiceTo, amoundTo])
+    }, [choiceFrom, choiceTo, amountTo])
 
 
     return (
@@ -39,8 +37,8 @@ function Converter() {
         items-center justify-center bg-emerald-200'>
             <div className='flex flex-col justify-center mb-6'>
                 <b className='text-4xl font-sans mb-2'>
-                    {choiceFrom && choiceTo && amoundFrom !== undefined ?
-                        `${amoundFrom} ${choiceFrom} to ${choiceTo} - Convert ${labelFrom} to ${labelTo}` :
+                    {choiceFrom && choiceTo && amountFrom !== undefined ?
+                        `${amountFrom} ${choiceFrom} to ${choiceTo} - Convert ${labelFrom} to ${labelTo}` :
                         `EUR to UAH - Convert Euros to Ukrainian Hryvni`
                     }
                 </b>
@@ -59,8 +57,8 @@ function Converter() {
                         <InputAmound
                             setChoice={setChoiceFrom}
                             setLabel={setLabelFrom}
-                            amound={amoundFrom!}
-                            setAmound={setAmoundFrom}
+                            amount={amountFrom!}
+                            setAmound={setAmountFrom}
                             name={'from'}
                         />
                     </div>
@@ -72,8 +70,8 @@ function Converter() {
                         <InputAmound
                             setChoice={setChoiceTo}
                             setLabel={setLabelTo}
-                            amound={amoundTo!}
-                            setAmound={setAmoundTo}
+                            amount={amountTo!}
+                            setAmound={setAmountTo}
                             name={'to'}
                         />
                     </div>
