@@ -11,9 +11,7 @@ function Header() {
     useEffect(() => {
         fetchFromAPI(`convert?from=EUR&to=UAH&amount=1`)
             .then((data) => setCurrencyEUR(data.info.rate));
-
-        console.log(currencyEUR);
-
+            
         fetchFromAPI(`convert?from=USD&to=UAH&amount=1`)
             .then((data) => setCurrencyUSD(data.info.rate))
 

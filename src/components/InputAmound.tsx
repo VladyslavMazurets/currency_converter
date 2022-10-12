@@ -9,33 +9,32 @@ interface IValuta {
 }
 
 interface Props {
-    amount: string,
+    amount: number,
     setChoice: (val: string) => void,
     setLabel: (val: string) => void,
-    setAmound: (val: string) => void
+    setAmound: (val: number) => void
     name: string
 }
 function InputAmound({ amount, setChoice, setLabel,
     setAmound, name }: Props) {
 
-    const [allCurrencies, setAllCurrencies] = useState<Array<string>>([]);
-
+    const [allCurrencies, setAllCurrencies] = useState<string[]>([]);
 
     const objectKeys: string[] = Object.keys(allCurrencies);
-    const objectValues: string[] = Object.values(allCurrencies);
+    const objectValues: any = Object.values(allCurrencies);
 
     var options: IValuta[] = [];
 
     useEffect(() => {
         fetchFromAPI('symbols')
-            .then((data) => setAllCurrencies(data.symbols));
+            .then((data) => setAllCurrencies(Object.values(data.symbols)));
     }, []);
 
     for (let i = 0; i < objectKeys.length; i++) {
 
         var valuta = {
-            value: objectKeys[i],
-            label: objectValues[i]
+            value: objectValues[i].code,
+            label: objectValues[i].description
         } as IValuta;
 
         options.push(valuta);
@@ -57,10 +56,12 @@ function InputAmound({ amount, setChoice, setLabel,
                             bg-gray-100 text-2xl focus:outline-none 
                             focus:bg-gray-200'
                 type="text"
+                min="0" max="100000"
+                step="0.25"
                 name={name}
-                value={parseFloat(amount) === undefined ? '' : amount}
+                value={amount === undefined ? '' : amount}
                 onChange={(e) =>
-                    setAmound(e.target.value.replace(/[^0-9.]/g, ''))} />
+                    setAmound(e.target.value.replace(/[^0-9.]/g, '') as any)} />
         </>
     )
 }
