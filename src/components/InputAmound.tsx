@@ -9,10 +9,10 @@ interface IValuta {
 }
 
 interface Props {
-    amount: number,
+    amount: string,
     setChoice: (val: string) => void,
     setLabel: (val: string) => void,
-    setAmound: (val: number) => void
+    setAmound: (val: string) => void
     name: string
 }
 function InputAmound({ amount, setChoice, setLabel,
@@ -56,12 +56,11 @@ function InputAmound({ amount, setChoice, setLabel,
                             bg-gray-100 text-2xl focus:outline-none 
                             focus:bg-gray-200'
                 type="text"
-                min="0" max="100000"
-                step="0.25"
                 name={name}
                 value={amount === undefined ? '' : amount}
                 onChange={(e) =>
-                    setAmound(e.target.value.replace(/[^0-9.]/g, '') as any)} />
+                    setAmound(e.target.value.replace(/[^0-9.]/g, '') as any)}
+            />
         </>
     )
 }

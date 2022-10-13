@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
 import { fetchFromAPI } from '../utils/fetchFromAPI';
+import CurrencyTable from './CurrencyTable';
 import InputAmound from './InputAmound';
 
 function Converter() {
-    const [amountFrom, setAmountFrom] = useState<number>();
-    const [amountTo, setAmountTo] = useState<number>();
+    const [amountFrom, setAmountFrom] = useState<string>('');
+    const [amountTo, setAmountTo] = useState<string>('');
 
     const [choiceFrom, setChoiceFrom] = useState<string>();
     const [choiceTo, setChoiceTo] = useState<string>();
@@ -13,19 +14,24 @@ function Converter() {
     const [labelTo, setLabelTo] = useState<string>();
 
     const convertFromTo = () => {
-        if (amountFrom) {
+        if (amountFrom.trim().length !== 0) {
             fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${amountFrom}`)
-                .then((data) => setAmountTo(Number(parseFloat(data.result).toFixed(2))));
+                .then((data) => setAmountTo(data.result.toString()));
+        } else {
+            setAmountFrom('');
+            setAmountTo('');
         }
     };
 
     const convertToFrom = () => {
-        if (amountTo) {
+        if (amountTo.trim().length !== 0) {
             fetchFromAPI(`convert?from=${choiceTo}&to=${choiceFrom}&amount=${amountTo}`)
-                .then((data) => setAmountFrom(Number(parseFloat(data.result).toFixed(2))));
+                .then((data) => setAmountFrom(data.result.toString()));
+        } else {
+            setAmountFrom('');
+            setAmountTo('');
         }
     };
-
 
     useEffect(() => {
         convertFromTo();
@@ -81,6 +87,25 @@ function Converter() {
                     </div>
                 </div>
             </div>
+
+            <div className='flex flex-row items-center gap-20'>
+
+                <CurrencyTable
+                    choiceFrom={choiceFrom!}
+                    choiceTo={choiceTo!}
+                    labelFrom={labelFrom!}
+                    labelTo={labelTo!}
+                />
+
+                <CurrencyTable
+                    choiceFrom={choiceTo!}
+                    choiceTo={choiceFrom!}
+                    labelFrom={labelTo!}
+                    labelTo={labelFrom!}
+                />
+
+            </div>
+
         </div>
     )
 }
