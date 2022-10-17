@@ -1,3 +1,4 @@
+import { isTemplateElement } from '@babel/types';
 import React, { useEffect } from 'react'
 import { fetchFromAPI } from '../utils/fetchFromAPI';
 
@@ -8,53 +9,78 @@ interface IProps {
     labelTo: string
 }
 
+type Sorted = {
+    value: number;
+}
+
 const defaultData = [
-    { id: 1, value: '1' }, { id: 2, value: '5' }, { id: 3, value: '10' },
-    { id: 4, value: '25' }, { id: 5, value: '50' }, { id: 6, value: '100' },
-    { id: 7, value: '500' }, { id: 8, value: '1000' }, { id: 9, value: '5000' },
-    { id: 10, value: '10000' }, { id: 11, value: '50000' }];
+    { value: 1 }, { value: 5 }, { value: 10 },
+    { value: 25 }, { value: 50 }, { value: 100 },
+    { value: 500 }, { value: 1000 }, { value: 5000 },
+    { value: 10000 }, { value: 50000 }
+];
 
 function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo }
     : IProps) {
 
-    var dataFrom: string[] = [];
+    const dataCurrencies: Sorted[] = [];
 
     async function fetchData() {
-
-        let idObj = 1;
-
-        defaultData.map(async (number) => {
-           if(number.id == idObj) { await (
-                fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${number.value}`)
-                    .then((data) => dataFrom.push(data.result.toString())),
-                    idObj++
-            )}
-            return null
+        defaultData.map(async (number, index) => {
+            const { result } = await fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${number.value}`);
+            dataCurrencies[index] = { value: result };
         })
     }
 
     useEffect(() => {
         fetchData();
-        console.log(dataFrom);
-    }, [choiceFrom, choiceTo])
-
+        console.log(dataCurrencies);
+    }, [choiceFrom, choiceTo]
+    )
 
     return (
         <>
-            <div className='bg-white mt-20 p-10 border-0 rounded-xl shadow-2xl'>
-                <p className='text-2xl font-medium'>
+            <div className='bg-white mt-20 p-10 border-0 rounded-xl 
+            shadow-2xl'>
+                <p className='text-2xl font-bold'>
                     {`Convert ${labelFrom} to ${labelTo}`}
                 </p>
 
-                <div className='flex justify-around'>
-                    <p className='w-full text-xl 
-                    font-medium border-b-2 pb-2'>
-                        {choiceFrom} {choiceTo}
+                <div className='flex flex-row justify-between mt-2'>
+                    <p className='w-full text-xl font-semibold	
+                        border-b-2 pb-2'>
+                        {choiceFrom}
+                    </p>
+                    <p className='w-full text-xl font-semibold	
+                        border-b-2 pb-2'>
+                        {choiceTo}
                     </p>
                 </div>
 
-                <div>
+                <div className='flex flex-row'>
+                    <div className='flex flex-col'>
+                        {defaultData.map((values, index) => {
+                            return (
+                                <span key={index} className="text-xl 
+                                font-medium">
+                                    {values.value} {choiceFrom}
+                                </span>
+                            )
+                        })
+                        }
+                    </div>
 
+                    <div className='flex flex-col'>
+                        {dataCurrencies.map((props, index) => {
+                            return (
+                                <span key={index}>
+                                    {props.value} {choiceTo}
+                                </span>
+                            )
+                        })
+
+                        }
+                    </div>
                 </div>
             </div>
         </>

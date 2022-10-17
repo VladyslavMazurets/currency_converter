@@ -42,8 +42,8 @@ function Converter() {
     }, [choiceTo, amountTo])
 
     return (
-        <div className='w-auto h-screen flex flex-col text-center 
-        items-center justify-center bg-emerald-200'>
+        <div className='w-screen h-screen flex flex-col text-center 
+        items-center justify-center bg-emerald-200 '>
             <div className='flex flex-col justify-center mb-6'>
                 <b className='text-4xl font-sans mb-2'>
                     {choiceFrom && choiceTo && amountFrom !== undefined || null ?
@@ -58,10 +58,12 @@ function Converter() {
             </div>
 
             <div className='w-1/2 bg-white shadow-2xl'>
-                <div className='flex text-center items-center justify-around'>
+                <div className='flex text-center items-center 
+                justify-around'>
 
                     <div className='flex flex-col my-4'>
-                        <span className='text-3xl font-serif font-medium mb-5 mt-1'>
+                        <span className='text-3xl font-serif font-semibold
+                         mb-5 mt-1'>
                             From Currency
                         </span>
                         <InputAmound
@@ -74,7 +76,8 @@ function Converter() {
                     </div>
 
                     <div className='flex flex-col my-4'>
-                        <span className='text-3xl font-serif font-medium mb-5 mt-1'>
+                        <span className='text-3xl font-serif font-semibold 
+                        mb-5 mt-1'>
                             To Currency
                         </span>
                         <InputAmound
@@ -97,12 +100,12 @@ function Converter() {
                     labelTo={labelTo!}
                 />
 
-                <CurrencyTable
+                {/* <CurrencyTable
                     choiceFrom={choiceTo!}
                     choiceTo={choiceFrom!}
                     labelFrom={labelTo!}
                     labelTo={labelFrom!}
-                />
+                /> */}
 
             </div>
 

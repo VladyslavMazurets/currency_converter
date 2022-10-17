@@ -52,7 +52,7 @@ function InputAmound({ amount, setChoice, setLabel,
             />
             <input placeholder='Amount'
                 className='mb-5 border-b-4 py-4 px-5
-                            border-b-stone-700 focus:border-b-lime-600 
+                            border-b-stone-700 focus:border-b-green-400 
                             bg-gray-100 text-2xl focus:outline-none 
                             focus:bg-gray-200'
                 type="text"
