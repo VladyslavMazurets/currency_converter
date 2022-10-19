@@ -1,5 +1,4 @@
-import { isTemplateElement } from '@babel/types';
-import React, { useEffect } from 'react'
+import React from 'react'
 import { fetchFromAPI } from '../utils/fetchFromAPI';
 
 interface IProps {
@@ -7,10 +6,6 @@ interface IProps {
     choiceTo: string,
     labelFrom: string,
     labelTo: string
-}
-
-type Sorted = {
-    value: number;
 }
 
 const defaultData = [
@@ -23,20 +18,16 @@ const defaultData = [
 function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo }
     : IProps) {
 
-    const dataCurrencies: Sorted[] = [];
+    const dataCurrencies = defaultData.map(async (number) => {
 
-    async function fetchData() {
-        defaultData.map(async (number, index) => {
-            const { result } = await fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${number.value}`);
-            dataCurrencies[index] = { value: result };
-        })
-    }
+        const data = await fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${number.value}`);
 
-    useEffect(() => {
-        fetchData();
-        console.log(dataCurrencies);
-    }, [choiceFrom, choiceTo]
-    )
+        return data.result;
+
+    })
+
+    console.log(dataCurrencies);
+
 
     return (
         <>
@@ -71,14 +62,15 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo }
                     </div>
 
                     <div className='flex flex-col'>
-                        {dataCurrencies.map((props, index) => {
-                            return (
-                                <span key={index}>
-                                    {props.value} {choiceTo}
-                                </span>
-                            )
+                        {dataCurrencies.then((value) => {
+                            value.map((number, index) => {
+                                return (
+                                    <span key={index}>
+                                        {number}
+                                    </span>
+                                )
+                            })
                         })
-
                         }
                     </div>
                 </div>
