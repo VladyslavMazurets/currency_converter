@@ -1,4 +1,5 @@
-import React from 'react'
+import { isValidDateValue } from '@testing-library/user-event/dist/utils';
+import React, { useEffect } from 'react'
 import { fetchFromAPI } from '../utils/fetchFromAPI';
 
 interface IProps {
@@ -18,16 +19,22 @@ const defaultData = [
 function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo }
     : IProps) {
 
-    const dataCurrencies = defaultData.map(async (number) => {
+    const currenciesValues: any[] = [];
 
-        const data = await fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${number.value}`);
+    useEffect(() => {
+        getCurrenciesValues();
+    }, [choiceFrom, choiceTo])
 
-        return data.result;
+    async function getCurrenciesValues() {
+        const promise = await Promise.all(defaultData.map(async (number) => {
+            const { result } = await fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${number.value}`);
+            return result
+        }))
+        currenciesValues.push(promise);
+        console.log("Inside currenciesValues", currenciesValues);
+    }
 
-    })
-
-    console.log(dataCurrencies);
-
+    console.log("Outside currenciesValues", currenciesValues);
 
     return (
         <>
@@ -49,7 +56,7 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo }
                 </div>
 
                 <div className='flex flex-row'>
-                    <div className='flex flex-col'>
+                    <div className='flex flex-col '>
                         {defaultData.map((values, index) => {
                             return (
                                 <span key={index} className="text-xl 
@@ -61,17 +68,8 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo }
                         }
                     </div>
 
-                    <div className='flex flex-col'>
-                        {dataCurrencies.then((value) => {
-                            value.map((number, index) => {
-                                return (
-                                    <span key={index}>
-                                        {number}
-                                    </span>
-                                )
-                            })
-                        })
-                        }
+                    <div className='flex flex-col bg-red-400'>
+
                     </div>
                 </div>
             </div>
