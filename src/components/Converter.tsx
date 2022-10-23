@@ -100,12 +100,12 @@ function Converter() {
                     labelTo={labelTo!}
                 />
 
-                {/* <CurrencyTable
+                <CurrencyTable
                     choiceFrom={choiceTo!}
                     choiceTo={choiceFrom!}
                     labelFrom={labelTo!}
                     labelTo={labelFrom!}
-                /> */}
+                />
 
             </div>
 

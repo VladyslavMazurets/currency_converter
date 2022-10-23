@@ -1,5 +1,5 @@
 import { isValidDateValue } from '@testing-library/user-event/dist/utils';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { fetchFromAPI } from '../utils/fetchFromAPI';
 
 interface IProps {
@@ -13,13 +13,12 @@ const defaultData = [
     { value: 1 }, { value: 5 }, { value: 10 },
     { value: 25 }, { value: 50 }, { value: 100 },
     { value: 500 }, { value: 1000 }, { value: 5000 },
-    { value: 10000 }, { value: 50000 }
-];
+    { value: 10000 }, { value: 50000 }];
 
 function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo }
     : IProps) {
 
-    const currenciesValues: any[] = [];
+    const [currenciesValues, setCurrenciesValues] = useState<any[]>([])
 
     useEffect(() => {
         getCurrenciesValues();
@@ -30,11 +29,8 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo }
             const { result } = await fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${number.value}`);
             return result
         }))
-        currenciesValues.push(promise);
-        console.log("Inside currenciesValues", currenciesValues);
+        setCurrenciesValues(promise);
     }
-
-    console.log("Outside currenciesValues", currenciesValues);
 
     return (
         <>
@@ -55,12 +51,13 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo }
                     </p>
                 </div>
 
-                <div className='flex flex-row'>
-                    <div className='flex flex-col '>
+                <div className='flex flex-row justify-around'>
+
+                    <div className='flex flex-col items-start'>
                         {defaultData.map((values, index) => {
                             return (
                                 <span key={index} className="text-xl 
-                                font-medium">
+                                font-medium pb-2">
                                     {values.value} {choiceFrom}
                                 </span>
                             )
@@ -68,9 +65,18 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo }
                         }
                     </div>
 
-                    <div className='flex flex-col bg-red-400'>
-
+                    <div className='flex flex-col items-start'>
+                        {currenciesValues.map((values, index) => {
+                            return (
+                                <span key={index} className="w-48 text-xl 
+                                font-medium	pb-2">
+                                    {values} {choiceTo}
+                                </span>
+                            )
+                        })
+                        }
                     </div>
+                    
                 </div>
             </div>
         </>
