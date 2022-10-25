@@ -11,13 +11,15 @@ function Header() {
     useEffect(() => {
         fetchFromAPI(`convert?from=EUR&to=UAH&amount=1`)
             .then((data) => setCurrencyEUR(data.info.rate));
-            
+
         fetchFromAPI(`convert?from=USD&to=UAH&amount=1`)
-            .then((data) => setCurrencyUSD(data.info.rate))
+            .then((data) => setCurrencyUSD(data.info.rate));
 
         fetchFromAPI(`convert?from=GBP&to=UAH&amount=1`)
-            .then((data) => setCurrencyGBP(data.info.rate))
+            .then((data) => setCurrencyGBP(data.info.rate));
 
+        fetchFromAPI(`convert?from=GBP&to=UAH&amount=1`)
+            .then((data) => console.log(data.query.from))
     }, []);
 
     return (
@@ -37,7 +39,7 @@ function Header() {
                         <div className=''>
                             <span className='fi fi-us' /> <span className='font-semibold font-mono text-xl'>
                                 USD {currencyUSD?.toFixed(2)} ₴
-                            </span> 
+                            </span>
                         </div>
                         <div className=''>
                             <span className='fi fi-gb' /> <span className='font-semibold font-mono text-xl'>

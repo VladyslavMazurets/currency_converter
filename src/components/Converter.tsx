@@ -42,10 +42,10 @@ function Converter() {
     }, [choiceTo, amountTo])
 
     return (
-        <div className='w-screen h-screen flex flex-col text-center 
-        items-center justify-center bg-emerald-200 '>
+        <div className='w-full h-full flex flex-col text-center 
+        items-center justify-center bg-emerald-200 py-24'>
             <div className='flex flex-col justify-center mb-6'>
-                <b className='text-4xl font-sans mb-2'>
+                <b className='text-4xl font-sans pt-5 pb-2'>
                     {choiceFrom && choiceTo && amountFrom !== undefined || null ?
                         `${amountFrom} ${choiceFrom} to ${choiceTo} 
                         - Convert ${labelFrom} to ${labelTo}` :
@@ -57,7 +57,7 @@ function Converter() {
                 </p>
             </div>
 
-            <div className='w-1/2 bg-white shadow-2xl'>
+            <div className='w-1/2 bg-white shadow-2xl my-6'>
                 <div className='flex text-center items-center 
                 justify-around'>
 
