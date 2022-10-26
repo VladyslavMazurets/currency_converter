@@ -17,9 +17,6 @@ function Header() {
 
         fetchFromAPI(`convert?from=GBP&to=UAH&amount=1`)
             .then((data) => setCurrencyGBP(data.info.rate));
-
-        fetchFromAPI(`convert?from=GBP&to=UAH&amount=1`)
-            .then((data) => console.log(data.query.from))
     }, []);
 
     return (
@@ -31,21 +28,15 @@ function Header() {
                     </div>
 
                     <div className=' flex gap-5'>
-                        <div className=''>
-                            <span className='fi fi-eu' /> <span className='font-semibold font-mono text-xl'>
-                                EUR {currencyEUR?.toFixed(2)} ₴
-                            </span>
-                        </div>
-                        <div className=''>
-                            <span className='fi fi-us' /> <span className='font-semibold font-mono text-xl'>
-                                USD {currencyUSD?.toFixed(2)} ₴
-                            </span>
-                        </div>
-                        <div className=''>
-                            <span className='fi fi-gb' /> <span className='font-semibold font-mono text-xl'>
-                                GBP {currencyGBP?.toFixed(2)} ₴
-                            </span>
-                        </div>
+                        <span className='fi fi-eu' /> <span className='font-semibold font-mono text-xl'>
+                            EUR {currencyEUR?.toFixed(2)} ₴
+                        </span>
+                        <span className='fi fi-us' /> <span className='font-semibold font-mono text-xl'>
+                            USD {currencyUSD?.toFixed(2)} ₴
+                        </span>
+                        <span className='fi fi-gb' /> <span className='font-semibold font-mono text-xl'>
+                            GBP {currencyGBP?.toFixed(2)} ₴
+                        </span>
                     </div>
                 </div>
             </nav>

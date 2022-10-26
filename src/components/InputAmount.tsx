@@ -5,20 +5,25 @@ import { fetchFromAPI } from '../utils/fetchFromAPI';
 
 interface IValuta {
     value: string,
-    label: string
+    label: string,
 }
 
 interface Props {
     amount: string,
     setChoice: (val: string) => void,
     setLabel: (val: string) => void,
-    setAmound: (val: string) => void
-    name: string
+    setAmount: (val: string) => void
+    name: string,
+    flag: string,
+    defaultValFrom: string,
+    defaultValTo: string
 }
+
 function InputAmound({ amount, setChoice, setLabel,
-    setAmound, name }: Props) {
+    setAmount, name, flag, defaultValFrom, defaultValTo }: Props) {
 
     const [allCurrencies, setAllCurrencies] = useState<string[]>([]);
+    const countryFlag = flag.slice(0, 2).toLocaleLowerCase();
 
     const objectKeys: string[] = Object.keys(allCurrencies);
     const objectValues: any = Object.values(allCurrencies);
@@ -50,17 +55,26 @@ function InputAmound({ amount, setChoice, setLabel,
                     setLabel(e?.label!);
                 }}
             />
-            <input placeholder='Amount'
-                className='mb-5 border-b-4 py-4 px-5
+            <div className='flex items-center justify-center'>
+
+                <span className={`fi fi-${countryFlag === 'un' ?
+                    defaultValFrom.slice(0, 2).toLowerCase() :
+                    countryFlag} text-3xl mr-2 mb-5`} />
+
+                <span className='text-4xl mb-7 mr-2'> - </span>
+
+                <input placeholder={`Amount ${name}`}
+                    className='mb-5 border-b-4 py-4 px-5
                             border-b-stone-700 focus:border-b-green-400 
-                            bg-gray-100 text-2xl focus:outline-none 
+                            bg-gray-50 text-2xl focus:outline-none 
                             focus:bg-gray-200'
-                type="text"
-                name={name}
-                value={amount === undefined ? '' : amount}
-                onChange={(e) =>
-                    setAmound(e.target.value.replace(/[^0-9.]/g, '') as any)}
-            />
+                    type="text"
+                    name={name}
+                    value={amount}
+                    onChange={(e) =>
+                        setAmount(e.target.value.replace(/[^0-9.]/g, '') as any)}
+                />
+            </div>
         </>
     )
 }

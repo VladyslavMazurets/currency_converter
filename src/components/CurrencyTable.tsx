@@ -6,16 +6,22 @@ interface IProps {
     choiceFrom: string,
     choiceTo: string,
     labelFrom: string,
-    labelTo: string
+    labelTo: string,
+    flagFrom: string,
+    flagTo: string,
+    defaultValFrom: string,
+    defaultValTo: string
 }
 
 const defaultData = [
     { value: 1 }, { value: 5 }, { value: 10 },
     { value: 25 }, { value: 50 }, { value: 100 },
     { value: 500 }, { value: 1000 }, { value: 5000 },
-    { value: 10000 }, { value: 50000 }];
+    { value: 10000 }, { value: 50000 }
+];
 
-function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo }
+function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo, flagFrom,
+    flagTo, defaultValFrom, defaultValTo }
     : IProps) {
 
     const [currenciesValues, setCurrenciesValues] = useState<number[]>([])
@@ -26,58 +32,83 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo }
 
     async function getCurrenciesValues() {
         const promise = await Promise.all(defaultData.map(async (number) => {
-            const { result } = await fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${number.value}`);
+            const { result } = await fetchFromAPI(`convert?from=${choiceFrom == undefined
+                ? defaultValFrom : choiceFrom}&to=${choiceTo == undefined ?
+                    defaultValTo : choiceTo}&amount=${number.value}`);
             return result.toLocaleString('en-US');
         })) as number[]
         setCurrenciesValues(promise);
     }
 
+    const countryFlagFrom = flagFrom.slice(0, 2).toLocaleLowerCase();
+    const countryFlagTo = flagTo.slice(0, 2).toLocaleLowerCase();
+
+
     return (
         <>
-            <div className='bg-white mt-20 p-10 border-0 rounded-xl 
+            <div className='bg-cyan-50 mt-20 p-10 border-0 rounded-xl 
             shadow-2xl'>
-                <p className='text-2xl font-bold'>
-                    {`Convert ${labelFrom} to ${labelTo}`}
+
+                <p className='text-2xl font-bold mb-5'>
+                    {`Convert ${labelFrom == undefined ? defaultValFrom :
+                        labelFrom} to ${labelTo == undefined ?
+                            defaultValTo : labelTo}`}
                 </p>
 
-                <div className='flex flex-row justify-between mt-2'>
-                    <p className='w-full text-xl font-semibold	
-                        border-b-2 pb-2'>
-                       <span className='fi fi-al' /> {choiceFrom}
-                    </p>
-                    <p className='w-full text-xl font-semibold	
-                        border-b-2 pb-2'>
-                       <span className='fi fi-nl' /> {choiceTo}
-                    </p>
-                </div>
+                <div className='flex flex-row justify-around'>
+                    <div className='flex flex-col items-center mr-8'>
+                        <p className='flex w-full text-xl font-semibold	
+                        border-b-2 pb-2 items-center justify-start'>
+                            <span className={`fi fi-${countryFlagFrom === 'un' ?
+                                defaultValFrom.slice(0, 2).toLowerCase() :
+                                countryFlagFrom} mr-2`} />
 
-                <div className='flex flex-row items-center justify-around'>
+                            <span> {choiceFrom == undefined ? defaultValFrom :
+                                choiceFrom} </span>
+                        </p>
 
-                    <div className='flex flex-col items-start'>
-                        {defaultData.map((values, index) => {
-                            return (
-                                <span key={index} className="text-xl 
+                        <div className='flex flex-col items-start'>
+                            {defaultData.map((values, index) => {
+                                return (
+                                    <span key={index} className="text-xl 
                                 font-medium pb-2 text-sky-700">
-                                    {` ${values.value} ${choiceFrom} >`}
-                                </span>
-                            )
-                        })
-                        }
+                                        {` ${values.value} ${choiceFrom ==
+                                            undefined ? defaultValFrom :
+                                            choiceFrom} >`}
+                                    </span>
+                                )
+                            })
+                            }
+                        </div>
                     </div>
 
-                    <div className='flex flex-col items-start'>
-                        {currenciesValues.map((values, index) => {
-                            return (
-                                <span key={index} className="text-xl 
+                    <div className='flex flex-col items-center'>
+                        <p className='flex w-full text-xl font-semibold	
+                        border-b-2 pb-2 items-center justify-start'>
+
+                            <span className={`fi fi-${countryFlagTo === 'un' ?
+                                defaultValTo.slice(0, 2).toLowerCase() :
+                                countryFlagTo} mr-2`} />
+
+                            <span> {choiceTo == undefined ? defaultValTo :
+                                choiceTo} </span>
+                        </p>
+
+                        <div className='flex flex-col items-start'>
+                            {currenciesValues.map((values, index) => {
+                                return (
+                                    <span key={index} className="text-xl 
                                 font-medium	pb-2">
-                                    {values} {choiceTo}
-                                </span>
-                            )
-                        })
-                        }
+                                        {values} {choiceTo == undefined ?
+                                            defaultValTo : choiceTo}
+                                    </span>
+                                )
+                            })
+                            }
+                        </div>
                     </div>
-
                 </div>
+
             </div>
         </>
     )

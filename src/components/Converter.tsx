@@ -2,44 +2,60 @@ import React, { useEffect, useState } from 'react'
 
 import { fetchFromAPI } from '../utils/fetchFromAPI';
 import CurrencyTable from './CurrencyTable';
-import InputAmound from './InputAmound';
+import InputAmount from './InputAmount';
 
 function Converter() {
     const [amountFrom, setAmountFrom] = useState<string>('');
     const [amountTo, setAmountTo] = useState<string>('');
+
+    const [flagFrom, setFlagFrom] = useState<string>('');
+    const [flagTo, setFlagTo] = useState<string>('');
 
     const [choiceFrom, setChoiceFrom] = useState<string>();
     const [choiceTo, setChoiceTo] = useState<string>();
     const [labelFrom, setLabelFrom] = useState<string>();
     const [labelTo, setLabelTo] = useState<string>();
 
-    const convertFromTo = () => {
+    const defaultFrom = 'EUR';
+    const defaultTo = 'UAH';
+
+    const countryFlags = async () => {
+        const { query } = await fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=100`)
+        setFlagFrom(query.from);
+        setFlagTo(query.to);
+    };
+
+    const convertFromTo = async () => {
         if (amountFrom.trim().length !== 0) {
-            fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${amountFrom}`)
-                .then((data) => setAmountTo(data.result.toString()));
+            const { result } = await fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${amountFrom}`)
+            setAmountTo(result.toString());
         } else {
             setAmountFrom('');
             setAmountTo('');
         }
     };
 
-    const convertToFrom = () => {
+    const convertToFrom = async () => {
         if (amountTo.trim().length !== 0) {
-            fetchFromAPI(`convert?from=${choiceTo}&to=${choiceFrom}&amount=${amountTo}`)
-                .then((data) => setAmountFrom(data.result.toString()));
+            const { result } = await fetchFromAPI(`convert?from=${choiceTo}&to=${choiceFrom}&amount=${amountTo}`)
+            setAmountFrom(result.toString());
         } else {
             setAmountFrom('');
             setAmountTo('');
         }
     };
+
+    useEffect(() => {
+        countryFlags();
+    }, [choiceFrom, choiceTo]);
 
     useEffect(() => {
         convertFromTo();
-    }, [choiceFrom, amountFrom])
+    }, [choiceFrom, amountFrom]);
 
     useEffect(() => {
         convertToFrom();
-    }, [choiceTo, amountTo])
+    }, [choiceTo, amountTo]);
 
     return (
         <div className='w-full h-full flex flex-col text-center 
@@ -57,7 +73,7 @@ function Converter() {
                 </p>
             </div>
 
-            <div className='w-1/2 bg-white shadow-2xl my-6'>
+            <div className='w-1/2 bg-cyan-50 shadow-2xl my-6'>
                 <div className='flex text-center items-center 
                 justify-around'>
 
@@ -66,12 +82,15 @@ function Converter() {
                          mb-5 mt-1'>
                             From Currency
                         </span>
-                        <InputAmound
+                        <InputAmount
                             setChoice={setChoiceFrom}
                             setLabel={setLabelFrom}
                             amount={amountFrom!}
-                            setAmound={setAmountFrom}
-                            name={'from'}
+                            setAmount={setAmountFrom}
+                            flag={flagFrom}
+                            defaultValFrom={defaultFrom}
+                            defaultValTo={defaultTo}
+                            name={'From'}
                         />
                     </div>
 
@@ -80,12 +99,15 @@ function Converter() {
                         mb-5 mt-1'>
                             To Currency
                         </span>
-                        <InputAmound
+                        <InputAmount
                             setChoice={setChoiceTo}
                             setLabel={setLabelTo}
                             amount={amountTo!}
-                            setAmound={setAmountTo}
-                            name={'to'}
+                            setAmount={setAmountTo}
+                            flag={flagTo}
+                            defaultValFrom={defaultTo}
+                            defaultValTo={defaultFrom}
+                            name={'To'}
                         />
                     </div>
                 </div>
@@ -98,6 +120,10 @@ function Converter() {
                     choiceTo={choiceTo!}
                     labelFrom={labelFrom!}
                     labelTo={labelTo!}
+                    flagFrom={flagFrom}
+                    flagTo={flagTo}
+                    defaultValFrom={defaultFrom}
+                    defaultValTo={defaultTo}
                 />
 
                 <CurrencyTable
@@ -105,6 +131,10 @@ function Converter() {
                     choiceTo={choiceFrom!}
                     labelFrom={labelTo!}
                     labelTo={labelFrom!}
+                    flagFrom={flagTo}
+                    flagTo={flagFrom}
+                    defaultValFrom={defaultTo}
+                    defaultValTo={defaultFrom}
                 />
 
             </div>
