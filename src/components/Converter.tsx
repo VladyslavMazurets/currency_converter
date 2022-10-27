@@ -59,7 +59,7 @@ function Converter() {
 
     return (
         <div className='w-full h-full flex flex-col text-center 
-        items-center justify-center bg-emerald-200 py-24'>
+        items-center justify-center bg-gray-100 py-24'>
             <div className='flex flex-col justify-center px-2 mb-4'>
                 <b className='text-3xl font-sans font-semibold pb-2 
                 sm:text-4xl sm:font-bold'>
@@ -75,7 +75,7 @@ function Converter() {
                 </p>
             </div>
 
-            <div className='w-3/4 bg-cyan-50 shadow-2xl my-6 p-6 lg:w-max'>
+            <div className='w-3/4 bg-cyan-50 drop-shadow-2xl my-6 p-6 lg:w-max'>
                 <div className='flex flex-col items-center justify-around 
                 lg:flex-row'>
 
@@ -113,7 +113,8 @@ function Converter() {
                 </div>
             </div>
 
-            <div className='flex flex-col items-center mx-4'>
+            <div className='flex flex-col items-center mx-4 lg:flex-row 
+            lg:gap-20 sm:mx-0'>
 
                 <CurrencyTable
                     choiceFrom={choiceFrom!}

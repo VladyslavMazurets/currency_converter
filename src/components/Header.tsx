@@ -22,36 +22,35 @@ function Header() {
     return (
         <>
             <nav className="relative flex flex-wrap justify-center px-2 
-            py-6 bg-emerald-500">
+            py-6 bg-sky-700	">
                 <div className="flex flex-col items-center sm:container 
                 sm:mx-auto sm:flex-wrap lg:flex-row lg:justify-between">
-                    <div className='font-bold font-medium text-3xl mb-4
-                    sm:text-3xl lg:text-4xl'>
+                    <div className='font-bold font-medium text-3xl 
+                    text-amber-200 mb-4 sm:text-3xl lg:text-4xl'>
                         Currency Converter
                     </div>
 
                     <div className='flex flex-col sm:flex-row'>
 
-                        <div className='flex flex-row mb-2 text-lg sm:mb-0
-                        sm:text-xl'>
+                        <div className='flex flex-row mb-2 text-lg 
+                        text-amber-200 sm:mb-0 sm:text-xl'>
                             <span className='fi fi-eu mr-2' />
                             <span
-                                className='font-semibold font-mono 
-                                sm:mr-4'>
+                                className='font-semibold font-mono sm:mr-4'>
                                 EUR {currencyEUR?.toFixed(2)} ₴
                             </span>
                         </div>
 
-                        <div className='flex flex-row mb-2 text-lg sm:mb-0
-                        sm:text-xl'>
+                        <div className='flex flex-row mb-2 text-lg 
+                        text-amber-200 sm:mb-0 sm:text-xl'>
                             <span className='fi fi-us mr-2' /> <span
                                 className='font-semibold font-mono sm:mr-4'>
                                 USD {currencyUSD?.toFixed(2)} ₴
                             </span>
                         </div>
 
-                        <div className='flex flex-row mb-2 text-lg sm:mb-0
-                        sm:text-xl'>
+                        <div className='flex flex-row mb-2 text-lg 
+                        text-amber-200 sm:mb-0 sm:text-xl'>
                             <span className='fi fi-gb mr-2' /> <span
                                 className='font-semibold font-mono'>
                                 GBP {currencyGBP?.toFixed(2)} ₴

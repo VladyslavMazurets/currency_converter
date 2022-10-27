@@ -46,10 +46,10 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo, flagFrom,
 
     return (
         <>
-            <div className='bg-cyan-50 mt-10 p-4 border-0 rounded-xl 
-            shadow-2xl'>
+            <div className='w-max bg-cyan-50 mt-10 p-3 border-0 rounded-xl 
+            shadow-2xl sm:mt-15 sm:p-6 md:p-8 md:mt-20'>
 
-                <p className='text-xl font-bold mb-5'>
+                <p className='text-xl font-bold mb-5 sm:text-2xl'>
                     {`Convert ${labelFrom == undefined ? defaultValFrom :
                         labelFrom} to ${labelTo == undefined ?
                             defaultValTo : labelTo}`}
@@ -57,9 +57,10 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo, flagFrom,
 
                 <div className='flex flex-row justify-around'>
 
-                    <div className='flex flex-col items-center mr-8'>
+                    <div className='flex flex-col items-center mr-4'>
                         <div className='flex w-full text-md font-semibold	
-                        border-b-2 pb-2 items-center justify-start'>
+                        border-b-2 border-gray-400 pb-2 items-center 
+                        justify-start sm:text-xl'>
                             <span className={`fi fi-${countryFlagFrom === 'un' ?
                                 defaultValFrom.slice(0, 2).toLowerCase() :
                                 countryFlagFrom} mr-2`} />
@@ -73,7 +74,7 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo, flagFrom,
                             {defaultData.map((values, index) => {
                                 return (
                                     <span key={index} className="text-md 
-                                font-medium pb-2 text-sky-700">
+                                font-medium pb-2 text-sky-700 sm:text-lg">
                                         {` ${values.value} ${choiceFrom ==
                                             undefined ? defaultValFrom :
                                             choiceFrom} >`}
@@ -87,8 +88,8 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo, flagFrom,
                     <div className='flex flex-col items-center'>
 
                         <div className='flex w-full text-md font-semibold	
-                        border-b-2 pb-2 items-center justify-start'>
-
+                        border-b-2 border-gray-400 pb-2 items-center 
+                        justify-start sm:text-xl'>
                             <span className={`fi fi-${countryFlagTo === 'un' ?
                                 defaultValTo.slice(0, 2).toLowerCase() :
                                 countryFlagTo} mr-2`} />
@@ -102,7 +103,7 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo, flagFrom,
                             {currenciesValues.map((values, index) => {
                                 return (
                                     <span key={index} className="text-md 
-                                font-medium	pb-2">
+                                font-medium	pb-2 sm:text-lg">
                                         {values} {choiceTo == undefined ?
                                             defaultValTo : choiceTo}
                                     </span>
