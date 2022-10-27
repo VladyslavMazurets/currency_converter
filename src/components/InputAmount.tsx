@@ -16,11 +16,10 @@ interface Props {
     name: string,
     flag: string,
     defaultValFrom: string,
-    defaultValTo: string
 }
 
 function InputAmound({ amount, setChoice, setLabel,
-    setAmount, name, flag, defaultValFrom, defaultValTo }: Props) {
+    setAmount, name, flag, defaultValFrom }: Props) {
 
     const [allCurrencies, setAllCurrencies] = useState<string[]>([]);
     const countryFlag = flag.slice(0, 2).toLocaleLowerCase();
@@ -47,33 +46,37 @@ function InputAmound({ amount, setChoice, setLabel,
 
     return (
         <>
-            <Select className='mb-3 text-xl'
-                placeholder='Select currency'
-                options={options}
-                onChange={(e) => {
-                    setChoice(e?.value!);
-                    setLabel(e?.label!);
-                }}
-            />
-            <div className='flex items-center justify-center'>
-
-                <span className={`fi fi-${countryFlag === 'un' ?
-                    defaultValFrom.slice(0, 2).toLowerCase() :
-                    countryFlag} text-3xl mr-2 mb-5`} />
-
-                <span className='text-4xl mb-7 mr-2'> - </span>
-
-                <input placeholder={`Amount ${name}`}
-                    className='mb-5 border-b-4 py-4 px-5
-                            border-b-stone-700 focus:border-b-green-400 
-                            bg-gray-50 text-2xl focus:outline-none 
-                            focus:bg-gray-200'
-                    type="text"
-                    name={name}
-                    value={amount}
-                    onChange={(e) =>
-                        setAmount(e.target.value.replace(/[^0-9.]/g, '') as any)}
+            <div className='flex flex-col items-center'>
+                <Select className='mb-3 text-xs w-3/4 sm:text-xl sm:w-full'
+                    placeholder='Select currency'
+                    options={options}
+                    onChange={(e) => {
+                        setChoice(e?.value!);
+                        setLabel(e?.label!);
+                    }}
                 />
+                <div className='w-full flex items-center justify-center px-4'>
+
+                    <span className={`fi fi-${countryFlag === 'un' ?
+                        defaultValFrom.slice(0, 2).toLowerCase() :
+                        countryFlag} text-xl mr-2 mb-5 sm:text-3xl`} />
+
+                    <span className='text-2xl mb-7 mr-2'> - </span>
+
+                    <input placeholder={`Amount ${name}`}
+                        className='w-3/4 mb-5 border-b-4 py-4 px-5
+                            border-b-stone-700 focus:border-b-green-400 
+                            bg-gray-50 text-sm sm:text-2xl sm:w-full 
+                            focus:outline-none focus:bg-gray-200'
+                        type="text"
+                        name={name}
+                        value={amount}
+                        onChange={(e) => {
+                            setAmount(e.target.value.replace(/[^0-9.]/g, '') as any)
+
+                        }}
+                    />
+                </div>
             </div>
         </>
     )

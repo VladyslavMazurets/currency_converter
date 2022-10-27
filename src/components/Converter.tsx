@@ -26,7 +26,7 @@ function Converter() {
     };
 
     const convertFromTo = async () => {
-        if (amountFrom.trim().length !== 0) {
+        if (amountFrom.length !== 0) {
             const { result } = await fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=${amountFrom}`)
             setAmountTo(result.toString());
         } else {
@@ -36,7 +36,7 @@ function Converter() {
     };
 
     const convertToFrom = async () => {
-        if (amountTo.trim().length !== 0) {
+        if (amountTo.length !== 0) {
             const { result } = await fetchFromAPI(`convert?from=${choiceTo}&to=${choiceFrom}&amount=${amountTo}`)
             setAmountFrom(result.toString());
         } else {
@@ -60,26 +60,28 @@ function Converter() {
     return (
         <div className='w-full h-full flex flex-col text-center 
         items-center justify-center bg-emerald-200 py-24'>
-            <div className='flex flex-col justify-center mb-6'>
-                <b className='text-4xl font-sans pt-5 pb-2'>
+            <div className='flex flex-col justify-center px-2 mb-4'>
+                <b className='text-3xl font-sans font-semibold pb-2 
+                sm:text-4xl sm:font-bold'>
                     {choiceFrom && choiceTo && amountFrom !== undefined || null ?
                         `${amountFrom} ${choiceFrom} to ${choiceTo} 
                         - Convert ${labelFrom} to ${labelTo}` :
                         `EUR to UAH - Convert Euros to Ukrainian Hryvni`
                     }
                 </b>
-                <p className='text-2xl font-sans font-medium'>
+                <p className='text-2xl font-sans font-medium sm:text-3xl 
+                sm:font-semibold'>
                     Currency Converter
                 </p>
             </div>
 
-            <div className='w-1/2 bg-cyan-50 shadow-2xl my-6'>
-                <div className='flex text-center items-center 
-                justify-around'>
+            <div className='w-3/4 bg-cyan-50 shadow-2xl my-6 p-6 lg:w-max'>
+                <div className='flex flex-col items-center justify-around 
+                lg:flex-row'>
 
-                    <div className='flex flex-col my-4'>
-                        <span className='text-3xl font-serif font-semibold
-                         mb-5 mt-1'>
+                    <div className='flex flex-col my-2 lg:px-6'>
+                        <span className='text-xl font-serif font-semibold
+                         mb-5 mt-1 sm:text-2xl'>
                             From Currency
                         </span>
                         <InputAmount
@@ -89,14 +91,13 @@ function Converter() {
                             setAmount={setAmountFrom}
                             flag={flagFrom}
                             defaultValFrom={defaultFrom}
-                            defaultValTo={defaultTo}
                             name={'From'}
                         />
                     </div>
 
-                    <div className='flex flex-col my-4'>
-                        <span className='text-3xl font-serif font-semibold 
-                        mb-5 mt-1'>
+                    <div className='flex flex-col my-2 lg:px-6'>
+                        <span className='text-xl font-serif font-semibold 
+                        mb-5 mt-1 sm:text-2xl'>
                             To Currency
                         </span>
                         <InputAmount
@@ -106,14 +107,13 @@ function Converter() {
                             setAmount={setAmountTo}
                             flag={flagTo}
                             defaultValFrom={defaultTo}
-                            defaultValTo={defaultFrom}
                             name={'To'}
                         />
                     </div>
                 </div>
             </div>
 
-            <div className='flex flex-row items-center gap-20'>
+            <div className='flex flex-col items-center mx-4'>
 
                 <CurrencyTable
                     choiceFrom={choiceFrom!}
