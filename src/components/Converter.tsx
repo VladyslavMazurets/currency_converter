@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
+import { RiExchangeLine } from 'react-icons/ri';
+
 import { fetchFromAPI } from '../utils/fetchFromAPI';
 import CurrencyTable from './CurrencyTable';
 import InputAmount from './InputAmount';
@@ -57,6 +59,15 @@ function Converter() {
         convertToFrom();
     }, [choiceTo, amountTo]);
 
+    function flipCurrencies(): void {
+        var temp = choiceFrom;
+        var label = labelFrom;
+        setLabelFrom(labelTo);
+        setLabelTo(label);
+        setChoiceFrom(choiceTo);
+        setChoiceTo(temp);
+    }
+
     return (
         <div className='w-full h-full flex flex-col text-center 
         items-center justify-center bg-gray-100 py-24'>
@@ -75,7 +86,7 @@ function Converter() {
                 </p>
             </div>
 
-            <div className='w-3/4 bg-cyan-50 drop-shadow-2xl my-6 p-6 lg:w-max'>
+            <div className='w-3/4 bg-zinc-50 shadow-2xl my-6 p-6 lg:w-max'>
                 <div className='flex flex-col items-center justify-around 
                 lg:flex-row'>
 
@@ -93,6 +104,12 @@ function Converter() {
                             defaultValFrom={defaultFrom}
                             name={'From'}
                         />
+                    </div>
+
+                    <div className='text-4xl rotate-90 text-sky-800 
+                    cursor-pointer hover:text-sky-500 
+                    active:text-green-400 sm:text-6xl lg:rotate-180'>
+                        <RiExchangeLine onClick={() => flipCurrencies()} />
                     </div>
 
                     <div className='flex flex-col my-2 lg:px-6'>

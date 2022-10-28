@@ -22,11 +22,11 @@ function Header() {
     return (
         <>
             <nav className="relative flex flex-wrap justify-center px-2 
-            py-6 bg-sky-700	">
+            py-6 bg-sky-700	shadow-2xl">
                 <div className="flex flex-col items-center sm:container 
                 sm:mx-auto sm:flex-wrap lg:flex-row lg:justify-between">
-                    <div className='font-bold font-medium text-3xl 
-                    text-amber-200 mb-4 sm:text-3xl lg:text-4xl'>
+                    <div className='font-bold text-3xl text-amber-200 
+                    mb-6  lg:text-4xl'>
                         Currency Converter
                     </div>
 

@@ -16,12 +16,15 @@ function Footer() {
                     </span>
                     <div className='flex justify-between mt-6 font-bold 
                     text-2xl text-amber-100'>
-                        <BsInstagram aria-label='instagram.com' onClick={() =>
-                            window.open('https://www.instagram.com/what_is_1ove/')} />
-                        <BsFacebook aria-label='facebook.com' onClick={() =>
-                            window.open('https://www.facebook.com/profile.php?id=100009904380563')} />
-                        <BsTelegram aria-label='telegram.com' onClick={() =>
-                            window.open('https://t.me/Shaman_K1ng')} />
+                        <BsInstagram className='cursor-pointer'
+                            aria-label='instagram.com' onClick={() =>
+                                window.open('https://www.instagram.com/what_is_1ove/')} />
+                        <BsFacebook className='cursor-pointer'
+                            aria-label='facebook.com' onClick={() =>
+                                window.open('https://www.facebook.com/profile.php?id=100009904380563')} />
+                        <BsTelegram className='cursor-pointer'
+                            aria-label='telegram.com' onClick={() =>
+                                window.open('https://t.me/Shaman_K1ng')} />
                     </div>
                 </div>
             </div>
