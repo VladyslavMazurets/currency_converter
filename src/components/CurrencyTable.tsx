@@ -46,8 +46,8 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo, flagFrom,
 
     return (
         <>
-            <div className='w-full bg-zinc-50 mt-10 p-3 border-0 rounded-xl 
-            shadow-2xl sm:mt-15 sm:p-6 md:p-8 md:mt-20'>
+            <div className='w-fit bg-zinc-50 mt-10 p-3 border-0 rounded-xl 
+            shadow-2xl sm:mt-15 sm:p-6 md:mt-20'>
 
                 <p className='text-xl font-bold mb-5 sm:text-2xl'>
                     {`Convert ${labelFrom == undefined ? defaultValFrom :
