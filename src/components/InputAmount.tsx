@@ -22,12 +22,12 @@ function InputAmound({ amount, setChoice, setLabel,
     setAmount, name, flag, defaultValFrom }: Props) {
 
     const [allCurrencies, setAllCurrencies] = useState<string[]>([]);
-    const countryFlag = flag.slice(0, 2).toLocaleLowerCase();
-
+    
     const objectKeys: string[] = Object.keys(allCurrencies);
     const objectValues: any = Object.values(allCurrencies);
-
+    
     var options: IValuta[] = [];
+    const countryFlag = flag.slice(0, 2).toLocaleLowerCase();
 
     useEffect(() => {
         fetchFromAPI('symbols')

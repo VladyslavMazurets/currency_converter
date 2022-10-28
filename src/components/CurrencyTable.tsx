@@ -1,4 +1,3 @@
-import { isValidDateValue } from '@testing-library/user-event/dist/utils';
 import React, { useEffect, useState } from 'react'
 import { fetchFromAPI } from '../utils/fetchFromAPI';
 
@@ -64,7 +63,6 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo, flagFrom,
                             <span className={`fi fi-${countryFlagFrom === 'un' ?
                                 defaultValFrom.slice(0, 2).toLowerCase() :
                                 countryFlagFrom} mr-2`} />
-
                             <span>
                                 {choiceFrom == undefined ? defaultValFrom :
                                     choiceFrom} </span>
@@ -75,7 +73,7 @@ function CurrencyTable({ choiceFrom, choiceTo, labelFrom, labelTo, flagFrom,
                                 return (
                                     <span key={index} className="text-md 
                                 font-medium pb-2 text-sky-700 sm:text-lg">
-                                        {` ${values.value} ${choiceFrom ==
+                                        {`${values.value} ${choiceFrom ==
                                             undefined ? defaultValFrom :
                                             choiceFrom} >`}
                                     </span>

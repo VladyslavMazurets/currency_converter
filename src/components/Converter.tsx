@@ -5,6 +5,7 @@ import { RiExchangeLine } from 'react-icons/ri';
 import { fetchFromAPI } from '../utils/fetchFromAPI';
 import CurrencyTable from './CurrencyTable';
 import InputAmount from './InputAmount';
+import Loader from './Loader';
 
 function Converter() {
     const [amountFrom, setAmountFrom] = useState<string>('');
@@ -22,9 +23,9 @@ function Converter() {
     const defaultTo = 'UAH';
 
     const countryFlags = async () => {
-        const { query } = await fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=100`)
-        setFlagFrom(query.from);
-        setFlagTo(query.to);
+        const { query: { from, to } } = await fetchFromAPI(`convert?from=${choiceFrom}&to=${choiceTo}&amount=100`)
+        setFlagFrom(from);
+        setFlagTo(to);
     };
 
     const convertFromTo = async () => {
@@ -52,12 +53,12 @@ function Converter() {
     }, [choiceFrom, choiceTo]);
 
     useEffect(() => {
-        convertFromTo();
-    }, [choiceFrom, amountFrom]);
-
-    useEffect(() => {
         convertToFrom();
     }, [choiceTo, amountTo]);
+
+    useEffect(() => {
+        convertFromTo();
+    }, [choiceFrom, amountFrom]);
 
     function flipCurrencies(): void {
         var temp = choiceFrom;
@@ -108,7 +109,7 @@ function Converter() {
 
                     <div className='text-4xl rotate-90 text-sky-800 
                     cursor-pointer hover:text-sky-500 
-                    active:text-green-400 sm:text-6xl lg:rotate-180'>
+                    active:text-green-400 sm:text-5xl lg:rotate-180'>
                         <RiExchangeLine onClick={() => flipCurrencies()} />
                     </div>
 
